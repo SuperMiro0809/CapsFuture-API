@@ -35,8 +35,9 @@ class AuthController extends Controller
             'password' => bcrypt($request->password),
             'role_id' => $roleId
         ]);
+        $token = $user->createToken('authToken')->accessToken;
 
-        return response()->json($user, 200);
+        return response()->json(['accessToken' => $token, 'user' => $user], 200);
     }
 
     public function login(Request $request)
@@ -49,15 +50,15 @@ class AuthController extends Controller
         $u = User::whereEmail($request->email)->first();
 
         if(!$u) {
-            return response()->json(['error' => 'Имейлът не е регистриран'], 401);
+            return response()->json(['message' => 'Имейлът не е регистриран'], 401);
         }
 
         if (auth()->attempt($data)) {
             $user = auth()->user()->load(['info', 'role']);
             $token = auth()->user()->createToken('authToken')->accessToken;
-            return response()->json(['token' => $token, 'user' => $user], 200);
+            return response()->json(['accessToken' => $token, 'user' => $user], 200);
         } else {
-            return response()->json(['error' => 'Грешна парола'], 401);
+            return response()->json(['message' => 'Грешна парола'], 401);
         }
     }
 
