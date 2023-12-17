@@ -4,7 +4,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{
     AuthController,
-    ProductController
+    ProductController,
+    CampaignController
 };
 
 /*
@@ -28,6 +29,11 @@ Route::prefix('products')->group(function () {
     Route::get('/{id}', [ProductController::class, 'show']);
 });
 
+Route::prefix('campaigns')->group(function () {
+    Route::get('/', [CampaignController::class, 'index']);
+    Route::get('/{id}', [CampaignController::class, 'show']);
+});
+
 // protected routes
 Route::middleware('auth:api')->group(function () {
     Route::prefix('auth')->group(function () {
@@ -38,5 +44,11 @@ Route::middleware('auth:api')->group(function () {
         Route::post('/', [ProductController::class, 'store']);
         Route::put('/{id}', [ProductController::class, 'update']);
         Route::delete('/{id}', [ProductController::class, 'destroy']);
+    });
+
+    Route::prefix('campaigns')->group(function () {
+        Route::post('/', [CampaignController::class, 'store']);
+        Route::put('/{id}', [CampaignController::class, 'update']);
+        Route::delete('/{id}', [CampaignController::class, 'destroy']);
     });
 });
