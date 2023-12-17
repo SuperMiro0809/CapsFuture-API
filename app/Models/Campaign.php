@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\CampaignAttendance;
 
 class Campaign extends Model
 {
@@ -13,4 +14,8 @@ class Campaign extends Model
         'city',
         'date'
     ];
+
+    public function attendance() {
+        return $this->hasMany(CampaignAttendance::class);
+    }
 }

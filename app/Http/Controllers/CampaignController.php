@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\{
-    Campaign
+    Campaign,
+    CampaignAttendance
 };
 
 class CampaignController extends Controller
