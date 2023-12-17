@@ -3,7 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{
-    AuthController
+    AuthController,
+    ProductController
 };
 
 /*
@@ -22,10 +23,20 @@ Route::prefix('auth')->group(function () {
     Route::post('/login', [AuthController::class, 'login']);
 });
 
-Route::middleware('auth:api')->group(function () {
-    // protected routes
+Route::prefix('products')->group(function () {
+    Route::get('/', [ProductController::class, 'index']);
+    Route::get('/{id}', [ProductController::class, 'show']);
+});
 
+// protected routes
+Route::middleware('auth:api')->group(function () {
     Route::prefix('auth')->group(function () {
         Route::get('/logout', [AuthController::class, 'logout']);
+    });
+
+    Route::prefix('products')->group(function () {
+        Route::post('/', [ProductController::class, 'store']);
+        Route::put('/{id}', [ProductController::class, 'update']);
+        Route::delete('/{id}', [ProductController::class, 'destroy']);
     });
 });
