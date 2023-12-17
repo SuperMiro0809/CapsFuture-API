@@ -54,7 +54,7 @@ class AuthController extends Controller
         }
 
         if (auth()->attempt($data)) {
-            $user = auth()->user()->load(['info', 'role']);
+            $user = auth()->user()->load('role');
             $token = auth()->user()->createToken('authToken')->accessToken;
             return response()->json(['accessToken' => $token, 'user' => $user], 200);
         } else {

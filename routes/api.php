@@ -25,5 +25,7 @@ Route::prefix('auth')->group(function () {
 Route::middleware('auth:api')->group(function () {
     // protected routes
 
-    Route::get('/logout', [AuthController::class, 'logout']);
+    Route::prefix('auth')->group(function () {
+        Route::get('/logout', [AuthController::class, 'logout']);
+    });
 });
