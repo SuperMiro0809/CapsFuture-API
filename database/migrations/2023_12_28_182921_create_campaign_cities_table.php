@@ -11,9 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('campaigns', function (Blueprint $table) {
+        Schema::create('campaign_cities', function (Blueprint $table) {
             $table->id();
-            $table->date('date');
+            $table->foreignId('campaign_id')->constrained('campaigns');
+            $table->string('city');
             $table->timestamps();
         });
     }
@@ -23,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('campaigns');
+        Schema::dropIfExists('campaign_cities');
     }
 };

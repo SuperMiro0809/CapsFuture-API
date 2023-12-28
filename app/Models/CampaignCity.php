@@ -4,17 +4,18 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\CampaignAttendance;
+use App\Models\Campaign;
 
-class Campaign extends Model
+class CampaignCity extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'date'
+        'campaign_id',
+        'city'
     ];
 
-    public function attendance() {
-        return $this->hasMany(CampaignAttendance::class);
+    public function campaign() {
+        return $this->belongsTo(Campaign::class);
     }
 }
