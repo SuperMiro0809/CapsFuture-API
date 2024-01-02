@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('campaigns', function (Blueprint $table) {
             $table->id();
+            $table->string('title_image_path');
             $table->date('date');
             $table->timestamps();
         });

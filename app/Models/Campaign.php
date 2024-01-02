@@ -11,6 +11,7 @@ class Campaign extends Model
     use HasFactory;
 
     protected $fillable = [
+        'title_image_path',
         'date'
     ];
 
