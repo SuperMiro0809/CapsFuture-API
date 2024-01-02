@@ -5,7 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{
     AuthController,
     ProductController,
-    CampaignController
+    CampaignController,
+    PostController
 };
 
 /*
@@ -34,6 +35,11 @@ Route::prefix('campaigns')->group(function () {
     Route::get('/{id}', [CampaignController::class, 'show']);
 });
 
+Route::prefix('posts')->group(function () {
+    Route::get('/', [PostController::class, 'index']);
+    Route::get('/{id}', [PostController::class, 'show']);
+});
+
 // protected routes
 Route::middleware('auth:api')->group(function () {
     Route::prefix('auth')->group(function () {
@@ -51,5 +57,11 @@ Route::middleware('auth:api')->group(function () {
         Route::post('/', [CampaignController::class, 'store']);
         Route::put('/{id}', [CampaignController::class, 'update']);
         Route::delete('/{id}', [CampaignController::class, 'destroy']);
+    });
+
+    Route::prefix('posts')->group(function () {
+        Route::post('/', [PostController::class, 'store']);
+        Route::put('/{id}', [PostController::class, 'update']);
+        Route::delete('/{id}', [PostController::class, 'destroy']);
     });
 });
