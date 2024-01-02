@@ -70,4 +70,11 @@ class AuthController extends Controller
 
         return response()->json(['message' => 'Successfully logged out'], 200);
     }
+
+    public function profile()
+    {
+        $user = auth()->user()->load('role');
+
+        return response()->json($user, 200);
+    }
 }

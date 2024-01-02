@@ -38,6 +38,7 @@ Route::prefix('campaigns')->group(function () {
 Route::middleware('auth:api')->group(function () {
     Route::prefix('auth')->group(function () {
         Route::get('/logout', [AuthController::class, 'logout']);
+        Route::get('/profile', [AuthController::class, 'profile']);
     });
 
     Route::prefix('products')->group(function () {
