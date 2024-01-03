@@ -15,7 +15,28 @@ class CampaignController extends Controller
 {
     public function index()
     {
-        //
+        $lang = request()->query('lang', 'bg');
+
+        $query = Campaign::select(
+                        'campaigns.*',
+                        'translations.title',
+                        'translations.short_description',
+                        'translations.description'
+                    )
+                    ->with('cities')
+                    ->leftJoin('translations', function ($q) use ($lang) {
+                        $q->on('translations.parent_id', 'campaigns.id')
+                          ->where('translations.model', Campaign::class)
+                          ->where('translations.language', $lang);
+                    });
+
+        if(request()->query('total')) {
+            $campaigns = $query->paginate(request()->query('total'))->withQueryString();
+        }else {
+            $campaigns = $query->paginate(10)->withQueryString();
+        }
+
+        return $campaigns;
     }
 
     public function store(Request $request)
