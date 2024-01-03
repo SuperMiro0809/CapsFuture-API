@@ -81,7 +81,26 @@ class CampaignController extends Controller
 
     public function destroy($id)
     {
-        //
+        $result = DB::transaction(function () use ($id) {
+            $campaign = Campaign::find($id);
+
+            $campaign->attendance()->delete();
+
+            $campaign->cities()->delete();
+
+            $campaign->translations()->delete();
+
+            $campaign->delete();
+
+            return 'Delete successful';
+        });
+
+        return $result;
+    }
+
+    public function deleteMany()
+    {
+
     }
 
     public function show($id)

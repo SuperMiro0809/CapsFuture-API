@@ -6,7 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\{
     CampaignAttendance,
-    CampaignCity
+    CampaignCity,
+    Translation
 };
 
 class Campaign extends Model
@@ -24,5 +25,9 @@ class Campaign extends Model
 
     public function cities() {
         return $this->hasMany(CampaignCity::class);
+    }
+
+    public function translations() {
+        return $this->morphMany(Translation::class, 'parent', 'model');
     }
 }

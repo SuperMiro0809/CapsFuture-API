@@ -63,5 +63,6 @@ Route::middleware('auth:api')->group(function () {
         Route::post('/', [PostController::class, 'store']);
         Route::put('/{id}', [PostController::class, 'update']);
         Route::delete('/{id}', [PostController::class, 'destroy']);
+        Route::delete('/deleteMany', [PostController::class, 'deleteMany']);
     });
 });
