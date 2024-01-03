@@ -98,9 +98,27 @@ class CampaignController extends Controller
         return $result;
     }
 
-    public function deleteMany()
+    public function deleteMany(Request $request)
     {
+        $ids = $request->ids;
 
+        $result = DB::transaction(function () use ($ids) {
+            foreach($ids as $id) {
+                $campaign = Campaign::find($id);
+
+                $campaign->attendance()->delete();
+
+                $campaign->cities()->delete();
+
+                $campaign->translations()->delete();
+
+                $campaign->delete();
+            }
+
+            return 'Delete successful';
+        });
+
+        return $result;
     }
 
     public function show($id)
