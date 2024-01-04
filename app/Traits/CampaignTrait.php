@@ -20,7 +20,7 @@ trait CampaignTrait {
                 });
 
         if(request()->query('title')) {
-            $query->where('translations.tilte', 'LIKE', '%'.request()->query('title').'%');
+            $query->where('translations.title', 'LIKE', '%'.request()->query('title').'%');
         }
 
         if(request()->query('short_description')) {
