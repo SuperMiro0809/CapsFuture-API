@@ -30,9 +30,13 @@ class CampaignController extends Controller
         $cities = json_decode($request->cities, true);
         $information = json_decode($request->information, true);
 
-        $result = DB::transaction(function () use ($request, $cities, $information) {
+        $title_image = $request->file('title_image');
+
+        $title_image_path = $title_image->store('campaigns', 'public');
+
+        $result = DB::transaction(function () use ($request, $cities, $information, $title_image_path) {
             $campaign = Campaign::create([
-                'title_image_path' => 'test',
+                'title_image_path' => $title_image_path,
                 'date' => $request->date
             ]);
 
