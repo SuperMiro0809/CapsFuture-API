@@ -31,6 +31,16 @@ trait CampaignTrait {
             $query->where('translations.description', 'LIKE', '%'.request()->query('description').'%');
         }
 
+        if(request()->query('city')) {
+            $query->whereHas('cities', function ($q) {
+                $q->where('city', request()->query('city'));
+            });
+        }
+
+        if(request()->query('date')) {
+            $query->where('date', request()->query('date'));
+        }
+
         if(request()->has(['field', 'direction'])){
             $query->orderBy(request()->query('field'), request()->query('direction'));
         }
@@ -40,8 +50,8 @@ trait CampaignTrait {
         }else if($all) {
             $campaigns = $query->get();
         }else {
-            if(request()->query('total')) {
-                $campaigns = $query->paginate(request()->query('total'))->withQueryString();
+            if(request()->query('limit')) {
+                $campaigns = $query->paginate(request()->query('limit'))->withQueryString();
             }else {
                 $campaigns = $query->paginate(10)->withQueryString();
             }
