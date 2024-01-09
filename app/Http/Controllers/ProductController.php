@@ -74,7 +74,9 @@ class ProductController extends Controller
         $result = DB::transaction(function () use ($id) {
             $product = Product::find($id);
 
-            $product->files()->delete();  // delete file form storage
+            $product->files()->delete();
+
+            Storage::deleteDirectory('public/products/' . $id);
 
             $product->translations()->delete();
 
@@ -94,7 +96,9 @@ class ProductController extends Controller
             foreach($ids as $id) {
                 $product = Product::find($id);
 
-                $product->files()->delete(); // delete file form storage
+                $product->files()->delete();
+
+                Storage::deleteDirectory('public/products/' . $id);
 
                 $product->translations()->delete();
 
