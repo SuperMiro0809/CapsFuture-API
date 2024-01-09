@@ -4,7 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\ProductFile;
+use App\Models\{
+    ProductFile,
+    Translation
+};
 
 class Product extends Model
 {
@@ -17,5 +20,9 @@ class Product extends Model
 
     public function files() {
         return $this->hasMany(ProductFile::class);
+    }
+
+    public function translations() {
+        return $this->morphMany(Translation::class, 'parent', 'model');
     }
 }

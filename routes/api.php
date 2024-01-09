@@ -50,6 +50,7 @@ Route::middleware('auth:api')->group(function () {
     Route::prefix('products')->group(function () {
         Route::post('/', [ProductController::class, 'store']);
         Route::put('/{id}', [ProductController::class, 'update']);
+        Route::delete('/deleteMany', [CampaignController::class, 'deleteMany']);
         Route::delete('/{id}', [ProductController::class, 'destroy']);
     });
 
@@ -63,6 +64,7 @@ Route::middleware('auth:api')->group(function () {
     Route::prefix('posts')->group(function () {
         Route::post('/', [PostController::class, 'store']);
         Route::put('/{id}', [PostController::class, 'update']);
+        Route::delete('/deleteMany', [CampaignController::class, 'deleteMany']);
         Route::delete('/{id}', [PostController::class, 'destroy']);
     });
 });
