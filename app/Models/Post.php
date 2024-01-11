@@ -10,6 +10,7 @@ class Post extends Model
     use HasFactory;
 
     protected $fillable = [
+        'slug',
         'title_image_path',
         'active'
     ];
