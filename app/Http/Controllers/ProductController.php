@@ -66,7 +66,57 @@ class ProductController extends Controller
 
     public function update(Request $request, $id)
     {
-        //
+        $information = json_decode($request->information, true);
+        $images = $request->file('images');
+        $deleteImagesIds = json_decode($request->deleteImagesIds, true);
+
+        $result = DB::transaction(function () use ($request, $id, $images, $information, $deleteImagesIds) {
+            $product = Product::find($id);
+
+            if($images) {
+                foreach($images as $image) {
+                    $file_path = $image->store('products/' . $id, 'public');
+    
+                    ProductFile::create([
+                        'filepath' => $file_path,
+                        'product_id' => $product->id,
+                        'filename' => $image->hashName()
+                    ]);
+                }
+            }
+
+            if($deleteImagesIds) {
+                foreach($deleteImagesIds as $deleteImageId) {
+                    $productFile = ProductFile::find($deleteImageId);
+    
+                    Storage::delete('public/' . $productFile->filepath);
+    
+                    $productFile->delete();
+                }
+            }
+
+            $updateData = ['active' => $request->active];
+
+            if($request->has('price')) {
+                $updateData['price'] = $request->price;
+            }
+
+            $product->update($updateData);
+
+            if($information) {
+                foreach($information as $key=>$info) {
+                    $newInfo = $product->translations()->updateOrCreate(['id' => $info['id'] ?? null], [
+                        'title' => $info['title'],
+                        'short_description' => $info['short_description'],
+                        'description' => $info['description'],
+                    ]);
+                }
+            }
+
+            return $product;
+        });
+
+        return $result;
     }
 
     public function destroy($id)
