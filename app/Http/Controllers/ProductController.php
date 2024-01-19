@@ -33,7 +33,7 @@ class ProductController extends Controller
         $result = DB::transaction(function () use ($request, $images, $information) {
             $product = Product::create([
                 'price' => $request->price,
-                'active' => 1
+                'active' => $request->active
             ]);
 
 

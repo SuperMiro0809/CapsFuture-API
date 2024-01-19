@@ -31,6 +31,10 @@ trait ProductTrait {
             $query->where('translations.description', 'LIKE', '%'.request()->query('description').'%');
         }
 
+        if(request()->query('active')) {
+            $query->where('active', request()->query('active'));
+        }
+
         if(request()->has(['field', 'direction'])){
             $query->orderBy(request()->query('field'), request()->query('direction'));
         }
