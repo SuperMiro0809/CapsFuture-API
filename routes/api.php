@@ -6,7 +6,9 @@ use App\Http\Controllers\{
     AuthController,
     ProductController,
     CampaignController,
-    PostController
+    PostController,
+    UserController,
+    RoleController
 };
 
 /*
@@ -66,5 +68,18 @@ Route::middleware('auth:api')->group(function () {
         Route::put('/{id}', [PostController::class, 'update']);
         Route::delete('/deleteMany', [CampaignController::class, 'deleteMany']);
         Route::delete('/{id}', [PostController::class, 'destroy']);
+    });
+
+    Route::prefix('users')->group(function () {
+        Route::get('/', [UserController::class, 'index']);
+        Route::get('/{id}', [UserController::class, 'show']);
+        Route::post('/', [UserController::class, 'store']);
+        Route::put('/{id}', [UserController::class, 'update']);
+        Route::delete('/deleteMany', [UserController::class, 'deleteMany']);
+        Route::delete('/{id}', [UserController::class, 'destroy']);
+    });
+
+    Route::prefix('roles')->group(function () {
+        Route::get('/', [RoleController::class, 'index']);
     });
 });

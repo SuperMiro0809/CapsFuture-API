@@ -7,7 +7,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
-use App\Models\Role;
+use App\Models\{
+    Role,
+    UserProfile
+};
 
 class User extends Authenticatable
 {
@@ -50,5 +53,9 @@ class User extends Authenticatable
 
     public function role() {
         return $this->hasOne(Role::class, 'id', 'role_id');
+    }
+
+    public function profile() {
+        return $this->hasOne(UserProfile::class);
     }
 }
