@@ -7,6 +7,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use App\Models\{
     User,
+    UserProfile,
     Role
 };
 
@@ -24,16 +25,26 @@ class UserSeeder extends Seeder
         $userRole = Role::where('name', 'User')->first()->id;
         $adminRole = Role::where('name', 'Admin')->first()->id;
 
-        User::create([
+        $user = User::create([
             'email' => 'user@user.com',
             'password' => bcrypt('password123'),
             'role_id' => $userRole
         ]);
 
-        User::create([
+        $user->profile()->create([
+            'first_name' => 'User',
+            'last_name' => 'User'
+        ]);
+
+        $adminUser = User::create([
             'email' => 'admin@admin.com',
             'password' => bcrypt('password123'),
             'role_id' => $adminRole
+        ]);
+
+        $adminUser->profile()->create([
+            'first_name' => 'Admin',
+            'last_name' => 'Admin'
         ]);
     }
 }
