@@ -126,4 +126,11 @@ class UserController extends Controller
 
         return $user;
     }
+
+    public function getAll()
+    {
+        $users = $this->getUsers(null, true);
+
+        return $users;
+    }
 }

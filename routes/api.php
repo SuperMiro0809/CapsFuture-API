@@ -8,7 +8,8 @@ use App\Http\Controllers\{
     CampaignController,
     PostController,
     UserController,
-    RoleController
+    RoleController,
+    LocationController
 };
 
 /*
@@ -42,6 +43,12 @@ Route::prefix('posts')->group(function () {
     Route::get('/{slug}', [PostController::class, 'show']);
 });
 
+Route::prefix('locations')->group(function () {
+    Route::get('/', [LocationController::class, 'index']);
+    Route::get('/types', [LocationController::class, 'getTypes']);
+    Route::get('/{id}', [LocationController::class, 'show']);
+});
+
 // protected routes
 Route::middleware('auth:api')->group(function () {
     Route::prefix('auth')->group(function () {
@@ -72,6 +79,7 @@ Route::middleware('auth:api')->group(function () {
 
     Route::prefix('users')->group(function () {
         Route::get('/', [UserController::class, 'index']);
+        Route::get('/all', [UserCOntroller::class, 'getAll']);
         Route::get('/{id}', [UserController::class, 'show']);
         Route::post('/', [UserController::class, 'store']);
         Route::put('/{id}', [UserController::class, 'update']);
@@ -81,5 +89,11 @@ Route::middleware('auth:api')->group(function () {
 
     Route::prefix('roles')->group(function () {
         Route::get('/', [RoleController::class, 'index']);
+    });
+
+    Route::prefix('locations')->group(function () {
+        Route::post('/', [LocationController::class, 'store']);
+        Route::put('/{id}', [LocationController::class, 'update']);
+        Route::delete('/{id}', [LocationController::class, 'destroy']);
     });
 });
