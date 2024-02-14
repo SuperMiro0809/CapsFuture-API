@@ -35,6 +35,7 @@ Route::prefix('products')->group(function () {
 
 Route::prefix('campaigns')->group(function () {
     Route::get('/', [CampaignController::class, 'index']);
+    Route::get('/upcoming', [CampaignController::class, 'upcoming']);
     Route::get('/{id}', [CampaignController::class, 'show']);
 });
 

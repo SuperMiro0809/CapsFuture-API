@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\Campaign;
 
 trait CampaignTrait {
-    public function getCampaigns($lang, $id=null, $all=false) {
+    public function getCampaigns($lang, $id=null, $all=false, $upcoming=false) {
         $query = Campaign::select(
                     'campaigns.*',
                     'translations.title',
@@ -39,6 +39,10 @@ trait CampaignTrait {
 
         if(request()->query('date')) {
             $query->where('date', request()->query('date'));
+        }
+
+        if($upcoming) {
+            $query->whereDate('date', '>=', date('Y-m-d'));
         }
 
         if(request()->has(['field', 'direction'])){

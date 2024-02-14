@@ -155,4 +155,13 @@ class CampaignController extends Controller
 
         return $campaign;
     }
+
+    public function upcoming()
+    {
+        $lang = request()->query('lang', 'bg');
+
+        $campaigns = $this->getCampaigns($lang, null, true, true);
+
+        return $campaigns;
+    }
 }
