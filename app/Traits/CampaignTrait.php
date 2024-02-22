@@ -32,8 +32,10 @@ trait CampaignTrait {
         }
 
         if(request()->query('search')) {
-            $query->where('translations.title', 'LIKE', '%'.request()->query('search').'%')
-                ->orWhere('translations.short_description', 'LIKE', '%'.request()->query('search').'%');
+            $query->where(function ($q) {
+                $q->where('translations.title', 'LIKE', '%'.request()->query('search').'%')
+                    ->orWhere('translations.short_description', 'LIKE', '%'.request()->query('search').'%');
+            });
         }
 
         if(request()->query('city')) {
