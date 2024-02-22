@@ -169,4 +169,13 @@ class ProductController extends Controller
 
         return $product;
     }
+
+    public function latest()
+    {
+        $lang = request()->query('lang', 'bg');
+
+        $products = $this->getProducts($lang, null, false, true);
+
+        return $products;
+    }
 }

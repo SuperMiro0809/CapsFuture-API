@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\Product;
 
 trait ProductTrait {
-    public function getProducts($lang, $id=null, $all=false) {
+    public function getProducts($lang, $id=null, $all=false, $latest=false) {
         $query = Product::select(
                     'products.*',
                     'translations.title',
@@ -41,6 +41,8 @@ trait ProductTrait {
 
         if($id) {
             $products = $query->where('products.id', $id)->first();
+        }else if($latest) {
+            $products = $query->orderBy('created_at', 'desc')->limit(4)->get();
         }else if($all) {
             $products = $query->get();
         }else {
