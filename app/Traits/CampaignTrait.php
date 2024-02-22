@@ -31,6 +31,11 @@ trait CampaignTrait {
             $query->where('translations.description', 'LIKE', '%'.request()->query('description').'%');
         }
 
+        if(request()->query('search')) {
+            $query->where('translations.title', 'LIKE', '%'.request()->query('search').'%')
+                ->orWhere('translations.short_description', 'LIKE', '%'.request()->query('search').'%');
+        }
+
         if(request()->query('city')) {
             $query->whereHas('cities', function ($q) {
                 $q->where('city', request()->query('city'));
@@ -39,6 +44,17 @@ trait CampaignTrait {
 
         if(request()->query('date')) {
             $query->where('date', request()->query('date'));
+        }
+
+        if(request()->query('active')) {
+            switch (request()->query('active')) {
+                case 'upcoming':
+                    $query->whereDate('date', '>=', date('Y-m-d'));
+                    break;
+                case 'past':
+                    $query->whereDate('date', '<', date('Y-m-d'));
+                    break;
+            }
         }
 
         if($upcoming) {
