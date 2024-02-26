@@ -164,4 +164,30 @@ class CampaignController extends Controller
 
         return $campaigns;
     }
+
+    public function participate(Request $request)
+    {
+        $campaign = Campaign::findOrFail($request->campaign_id);
+
+        if ($campaign->date < date('Y-m-d')) {
+            return response()->json(['message' => 'participate-not-allowed'], 404);
+        }
+
+        if ($request->user_id) {
+            $campaignAttendance = CampaignAttendance::create([
+                'campaign_id' => $request->campaign_id,
+                'user_id' => $request->user_id
+            ]);
+        } else {
+            $campaignAttendance = CampaignAttendance::create([
+                'campaign_id' => $request->campaign_id,
+                'first_name' => $request->firstName,
+                'last_name' => $request->lastName,
+                'email' => $request->email,
+                'phone' => $request->phone
+            ]);
+        }
+
+        return $campaignAttendance;
+    }
 }
