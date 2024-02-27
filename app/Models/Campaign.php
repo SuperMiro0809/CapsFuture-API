@@ -19,7 +19,7 @@ class Campaign extends Model
         'date'
     ];
 
-    public function attendance() {
+    public function attendances() {
         return $this->hasMany(CampaignAttendance::class);
     }
 

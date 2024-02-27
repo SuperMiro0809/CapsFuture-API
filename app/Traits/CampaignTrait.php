@@ -12,7 +12,7 @@ trait CampaignTrait {
                     'translations.short_description',
                     'translations.description'
                 )
-                ->with(['cities', 'translations'])
+                ->with(['cities', 'translations', 'attendances'])
                 ->leftJoin('translations', function ($q) use ($lang) {
                     $q->on('translations.parent_id', 'campaigns.id')
                     ->where('translations.model', Campaign::class)

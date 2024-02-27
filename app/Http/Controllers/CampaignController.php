@@ -110,7 +110,7 @@ class CampaignController extends Controller
         $result = DB::transaction(function () use ($id) {
             $campaign = Campaign::find($id);
 
-            $campaign->attendance()->delete();
+            $campaign->attendances()->delete();
 
             $campaign->cities()->delete();
 
@@ -132,7 +132,7 @@ class CampaignController extends Controller
             foreach($ids as $id) {
                 $campaign = Campaign::find($id);
 
-                $campaign->attendance()->delete();
+                $campaign->attendances()->delete();
 
                 $campaign->cities()->delete();
 
@@ -189,5 +189,14 @@ class CampaignController extends Controller
         }
 
         return $campaignAttendance;
+    }
+
+    public function unsubscribe($campaignId, $userId)
+    {
+        $campaignAttendance = CampaignAttendance::where('campaign_id', $campaignId)->where('user_id', $userId)->first();
+
+        $campaignAttendance->delete();
+
+        return 'Unsubscribe successful';
     }
 }
