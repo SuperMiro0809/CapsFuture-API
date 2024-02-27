@@ -31,6 +31,13 @@ trait PostTrait {
             $query->where('translations.description', 'LIKE', '%'.request()->query('description').'%');
         }
 
+        if(request()->query('search')) {
+            $query->where(function ($q) {
+                $q->where('translations.title', 'LIKE', '%'.request()->query('search').'%')
+                    ->orWhere('translations.short_description', 'LIKE', '%'.request()->query('search').'%');
+            });
+        }
+
         if(request()->has(['field', 'direction'])){
             $query->orderBy(request()->query('field'), request()->query('direction'));
         }
