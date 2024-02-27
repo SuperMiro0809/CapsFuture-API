@@ -38,6 +38,7 @@ Route::prefix('campaigns')->group(function () {
     Route::get('/', [CampaignController::class, 'index']);
     Route::get('/upcoming', [CampaignController::class, 'upcoming']);
     Route::post('/participate', [CampaignController::class, 'participate']);
+    Route::delete('/unsubscribe/{campaingId}/{userId}', [CampaignController::class, 'unsubscribe']);
     Route::get('/{id}', [CampaignController::class, 'show']);
 });
 
