@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\Product;
 
 trait ProductTrait {
-    public function getProducts($lang, $id=null, $all=false, $latest=false) {
+    public function getProducts($lang, $id=null, $all=false, $latest=false, $slug=null) {
         $query = Product::select(
                     'products.*',
                     'translations.title',
@@ -35,12 +35,21 @@ trait ProductTrait {
             $query->where('active', request()->query('active'));
         }
 
+        if(request()->query('search')) {
+            $query->where(function ($q) {
+                $q->where('translations.title', 'LIKE', '%'.request()->query('search').'%')
+                    ->orWhere('translations.short_description', 'LIKE', '%'.request()->query('search').'%');
+            });
+        }
+
         if(request()->has(['field', 'direction'])){
             $query->orderBy(request()->query('field'), request()->query('direction'));
         }
 
         if($id) {
             $products = $query->where('products.id', $id)->first();
+        }else if($slug) {
+            $products = $query->where('products.slug', $slug)->first();
         }else if($latest) {
             $products = $query->orderBy('created_at', 'desc')->limit(4)->get();
         }else if($all) {

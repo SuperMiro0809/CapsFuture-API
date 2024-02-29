@@ -12,7 +12,15 @@ trait PostTrait {
                     'translations.short_description',
                     'translations.description'
                 )
-                ->with('translations')
+                ->with([
+                    'translations',
+                    'comments',
+                    'comments.replies',
+                    'comments.user',
+                    'comments.user.profile',
+                    'comments.replies.user',
+                    'comments.replies.user.profile'
+                ])
                 ->leftJoin('translations', function ($q) use ($lang) {
                     $q->on('translations.parent_id', 'posts.id')
                     ->where('translations.model', Post::class)

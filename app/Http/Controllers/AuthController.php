@@ -20,12 +20,13 @@ class AuthController extends Controller
                 'password' => 'required|string|min:8',
             ],
             [
-                'email' => 'Имейлът вече е регистриран'
+                'email' => 'validation.email.registered',
+                'password' => 'validation.password.min'
             ]
         );
 
         if ($validator->fails()) {
-            return response(['errors'=>$validator->errors()->all()], 422);
+            return response(['message'=>$validator->errors()->all()], 422);
         }
 
         $roleId = Role::where('name', 'User')->first()->id;
@@ -35,8 +36,15 @@ class AuthController extends Controller
             'password' => bcrypt($request->password),
             'role_id' => $roleId
         ]);
+
+        $user->profile()->create([
+            'first_name' => $request->firstName,
+            'last_name' => $request->lastName
+        ]);
+
         $token = $user->createToken('authToken')->accessToken;
 
+        $user->load(['role', 'profile']);
         return response()->json(['accessToken' => $token, 'user' => $user], 200);
     }
 

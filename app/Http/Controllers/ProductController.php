@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use App\Traits\ProductTrait;
@@ -32,6 +33,7 @@ class ProductController extends Controller
 
         $result = DB::transaction(function () use ($request, $images, $information) {
             $product = Product::create([
+                'slug' => Str::slug($information['en']['title']),
                 'price' => $request->price,
                 'active' => $request->active
             ]);
@@ -111,6 +113,8 @@ class ProductController extends Controller
                         'description' => $info['description'],
                     ]);
                 }
+
+                $product->update(['slug' => Str::slug($information['en']['title'])]);
             }
 
             return $product;
@@ -166,6 +170,15 @@ class ProductController extends Controller
         $lang = request()->query('lang', 'bg');
 
         $product = $this->getProducts($lang, $id);
+
+        return $product;
+    }
+
+    public function showBySlug($slug)
+    {
+        $lang = request()->query('lang', 'bg');
+
+        $product = $this->getProducts($lang, null, false, false, $slug);
 
         return $product;
     }

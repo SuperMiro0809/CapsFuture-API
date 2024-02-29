@@ -7,6 +7,7 @@ use App\Http\Controllers\{
     ProductController,
     CampaignController,
     PostController,
+    PostCommentController,
     UserController,
     RoleController,
     LocationController
@@ -31,6 +32,7 @@ Route::prefix('auth')->group(function () {
 Route::prefix('products')->group(function () {
     Route::get('/', [ProductController::class, 'index']);
     Route::get('/latest', [ProductController::class, 'latest']);
+    Route::get('/{slug}/details', [ProductController::class, 'showBySlug']);
     Route::get('/{id}', [ProductController::class, 'show']);
 });
 
@@ -44,6 +46,15 @@ Route::prefix('campaigns')->group(function () {
 
 Route::prefix('posts')->group(function () {
     Route::get('/', [PostController::class, 'index']);
+
+    Route::prefix('{id}/comments')->group(function () {
+        Route::post('/', [PostCommentController::class, 'store']);
+
+        Route::prefix('{commentId}')->group(function () {
+            Route::post('/reply', [PostCommentController::class, 'storeReply']);
+        });
+    });
+
     Route::get('/{slug}', [PostController::class, 'show']);
 });
 
