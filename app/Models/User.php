@@ -12,6 +12,8 @@ use App\Models\{
     UserProfile
 };
 
+use App\Notifications\ResetPasswordNotification;
+
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
@@ -57,5 +59,18 @@ class User extends Authenticatable
 
     public function profile() {
         return $this->hasOne(UserProfile::class);
+    }
+
+    /**
+     * Send a password reset notification to the user.
+     *
+     * @param  string  $token
+     * @return void
+     */
+    public function sendPasswordResetNotification($token)
+    {
+        $url = config('app.client_url') . '/auth/reset-password?token=' . $token . '&email=' .$this->email;
+    
+        $this->notify(new ResetPasswordNotification($url));
     }
 }

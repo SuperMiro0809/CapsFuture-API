@@ -27,6 +27,8 @@ use App\Http\Controllers\{
 Route::prefix('auth')->group(function () {
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/login', [AuthController::class, 'login']);
+    Route::post('/forgot-password', [AuthController::class, 'forgotPassword'])->name('password.request');
+    Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('password.reset');
 });
 
 Route::prefix('products')->group(function () {
