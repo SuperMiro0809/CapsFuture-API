@@ -10,7 +10,8 @@ use App\Http\Controllers\{
     PostCommentController,
     UserController,
     RoleController,
-    LocationController
+    LocationController,
+    DashboardController
 };
 
 /*
@@ -23,6 +24,10 @@ use App\Http\Controllers\{
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+
+Route::prefix('dashboard')->group(function () {
+    Route::get('/', [DashboardController::class, 'index']);
+});
 
 Route::prefix('auth')->group(function () {
     Route::post('/register', [AuthController::class, 'register']);
