@@ -9,7 +9,8 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 use App\Models\{
     Role,
-    UserProfile
+    UserProfile,
+    CampaignAttendance
 };
 
 use App\Notifications\ResetPasswordNotification;
@@ -59,6 +60,10 @@ class User extends Authenticatable
 
     public function profile() {
         return $this->hasOne(UserProfile::class);
+    }
+
+    public function attendances() {
+        return $this->hasMany(CampaignAttendance::class);
     }
 
     /**

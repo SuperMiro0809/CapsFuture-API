@@ -39,6 +39,10 @@ trait PostTrait {
             $query->where('translations.description', 'LIKE', '%'.request()->query('description').'%');
         }
 
+        if(request()->query('active')) {
+            $query->where('posts.active', 'LIKE', request()->query('active'));
+        }
+
         if(request()->query('search')) {
             $query->where(function ($q) {
                 $q->where('translations.title', 'LIKE', '%'.request()->query('search').'%')

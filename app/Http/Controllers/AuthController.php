@@ -13,6 +13,8 @@ use App\Models\{
 
 class AuthController extends Controller
 {
+    protected $load = ['role', 'profile', 'attendances', 'attendances.campaign', 'attendances.campaign.cities', 'attendances.campaign.attendances', 'attendances.campaign.translations'];
+
     public function register(Request $request)
     {
         $validator = validator($request->only('email', 'password','mode'), 
@@ -45,7 +47,7 @@ class AuthController extends Controller
 
         $token = $user->createToken('authToken')->accessToken;
 
-        $user->load(['role', 'profile']);
+        $user->load($this->load);
         return response()->json(['accessToken' => $token, 'user' => $user], 200);
     }
 
@@ -63,7 +65,7 @@ class AuthController extends Controller
         }
 
         if (auth()->attempt($data)) {
-            $user = auth()->user()->load(['role', 'profile']);
+            $user = auth()->user()->load($this->load);
             $token = auth()->user()->createToken('authToken')->accessToken;
             return response()->json(['accessToken' => $token, 'user' => $user], 200);
         } else {
@@ -82,7 +84,7 @@ class AuthController extends Controller
 
     public function profile()
     {
-        $user = auth()->user()->load(['role', 'profile']);
+        $user = auth()->user()->load($this->load);
 
         return response()->json($user, 200);
     }
