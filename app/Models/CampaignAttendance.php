@@ -15,7 +15,11 @@ class CampaignAttendance extends Model
 
     protected $fillable = [
         'campaign_id',
-        'user_id'
+        'user_id',
+        'first_name',
+        'last_name',
+        'email',
+        'phone'
     ];
 
     public function campaign() {

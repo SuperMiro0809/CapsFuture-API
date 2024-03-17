@@ -6,6 +6,7 @@ use App\Http\Controllers\{
     AuthController,
     ProductController,
     CampaignController,
+    CampaignAttendanceController,
     PostController,
     PostCommentController,
     UserController,
@@ -48,7 +49,9 @@ Route::prefix('campaigns')->group(function () {
     Route::get('/upcoming', [CampaignController::class, 'upcoming']);
     Route::post('/participate', [CampaignController::class, 'participate']);
     Route::delete('/unsubscribe/{campaingId}/{userId}', [CampaignController::class, 'unsubscribe']);
-    Route::get('/{id}', [CampaignController::class, 'show']);
+    Route::prefix('{id}')->group(function () {
+        Route::get('/', [CampaignController::class, 'show']);
+    });
 });
 
 Route::prefix('posts')->group(function () {
@@ -76,6 +79,10 @@ Route::middleware('auth:api')->group(function () {
     Route::prefix('auth')->group(function () {
         Route::get('/logout', [AuthController::class, 'logout']);
         Route::get('/profile', [AuthController::class, 'profile']);
+
+        Route::prefix('{id}')->group(function () {
+            Route::put('/change-password', [AuthController::class, 'changePassword']);
+        });
     });
 
     Route::prefix('products')->group(function () {
@@ -87,9 +94,13 @@ Route::middleware('auth:api')->group(function () {
 
     Route::prefix('campaigns')->group(function () {
         Route::post('/', [CampaignController::class, 'store']);
-        Route::put('/{id}', [CampaignController::class, 'update']);
         Route::delete('/deleteMany', [CampaignController::class, 'deleteMany']);
-        Route::delete('/{id}', [CampaignController::class, 'destroy']);
+
+        Route::prefix('{id}')->group(function () {
+            Route::put('/', [CampaignController::class, 'update']);
+            Route::delete('/', [CampaignController::class, 'destroy']);
+            Route::get('/attendances', [CampaignAttendanceController::class, 'campaignAttendances']);
+        });
     });
 
     Route::prefix('posts')->group(function () {
@@ -102,11 +113,15 @@ Route::middleware('auth:api')->group(function () {
     Route::prefix('users')->group(function () {
         Route::get('/', [UserController::class, 'index']);
         Route::get('/all', [UserCOntroller::class, 'getAll']);
-        Route::get('/{id}', [UserController::class, 'show']);
         Route::post('/', [UserController::class, 'store']);
-        Route::put('/{id}', [UserController::class, 'update']);
         Route::delete('/deleteMany', [UserController::class, 'deleteMany']);
-        Route::delete('/{id}', [UserController::class, 'destroy']);
+
+        Route::prefix('{id}')->group(function () {
+            Route::get('/', [UserController::class, 'show']);
+            Route::get('/attendances', [CampaignAttendanceController::class, 'userAttendances']);
+            Route::put('/', [UserController::class, 'update']);
+            Route::delete('/', [UserController::class, 'destroy']);
+        });
     });
 
     Route::prefix('roles')->group(function () {

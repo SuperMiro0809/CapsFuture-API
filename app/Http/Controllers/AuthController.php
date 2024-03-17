@@ -135,4 +135,27 @@ class AuthController extends Controller
                 break;
         }
     }
+
+    public function changePassword(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+
+        if(!Hash::check($request->oldPassword, $user->password)) {
+            return response()->json(['message' => ['validation.old-password.not-valid']], 422);
+        }
+
+        if($request->oldPassword == $request->newPassword) {
+            return response()->json(['message' => ['validation.password.different']], 422);
+        }
+
+        if($request->confirmPassword != $request->newPassword) {
+            return response()->json(['message' => ['validation.password.no-match']], 422); 
+        }
+
+        $user->update([
+            'password' => bcrypt($request->newPassword)
+        ]);
+
+        return $user;
+    }
 }
