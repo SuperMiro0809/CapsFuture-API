@@ -176,7 +176,8 @@ class CampaignController extends Controller
         if ($request->user_id) {
             $campaignAttendance = CampaignAttendance::create([
                 'campaign_id' => $request->campaign_id,
-                'user_id' => $request->user_id
+                'user_id' => $request->user_id,
+                'phone' => $request->phone
             ]);
         } else {
             $campaignAttendance = CampaignAttendance::create([
@@ -188,12 +189,23 @@ class CampaignController extends Controller
             ]);
         }
 
+        $campaignAttendance->details()->create([
+            'caps_handover' => $request->caps_handover,
+            'bottles_handover' => $request->bottles_handover,
+            'cans_handover' => $request->cans_handover,
+            'buying_consumables' => $request->buying_consumables,
+            'campaign_labour' => $request->campaign_labour,
+            'note' => $request->note
+        ]);
+
         return $campaignAttendance;
     }
 
     public function unsubscribe($campaignId, $userId)
     {
         $campaignAttendance = CampaignAttendance::where('campaign_id', $campaignId)->where('user_id', $userId)->first();
+
+        $campaignAttendance->details()->delete();
 
         $campaignAttendance->delete();
 

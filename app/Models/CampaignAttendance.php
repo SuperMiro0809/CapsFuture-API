@@ -6,7 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\{
     Campaign,
-    User
+    User,
+    CampaignAttendanceDetail
 };
 
 class CampaignAttendance extends Model
@@ -28,5 +29,9 @@ class CampaignAttendance extends Model
 
     public function user() {
         return $this->belongsTo(User::class);
+    }
+
+    public function details() {
+        return $this->hasOne(CampaignAttendanceDetail::class, 'campaign_attendance_id');
     }
 }

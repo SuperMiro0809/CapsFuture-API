@@ -28,7 +28,9 @@ trait CampaignAttendanceTrait {
                     }, 
                     'campaign.cities',
                     'campaign.attendances',
-                    'user'
+                    'user',
+                    'user.profile',
+                    'details'
                 ]);
         
         switch ($objectType) {

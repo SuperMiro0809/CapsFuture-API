@@ -88,13 +88,18 @@ Route::middleware('auth:api')->group(function () {
     Route::prefix('products')->group(function () {
         Route::post('/', [ProductController::class, 'store']);
         Route::put('/{id}', [ProductController::class, 'update']);
-        Route::delete('/deleteMany', [CampaignController::class, 'deleteMany']);
+        Route::delete('/deleteMany', [ProductController::class, 'deleteMany']);
         Route::delete('/{id}', [ProductController::class, 'destroy']);
     });
 
     Route::prefix('campaigns')->group(function () {
         Route::post('/', [CampaignController::class, 'store']);
         Route::delete('/deleteMany', [CampaignController::class, 'deleteMany']);
+
+        Route::prefix('attendances')->group(function () {
+            Route::delete('/deleteMany', [CampaignAttendanceController::class, 'deleteMany']);
+            Route::delete('/{id}', [CampaignAttendanceController::class, 'destroy']);
+        });
 
         Route::prefix('{id}')->group(function () {
             Route::put('/', [CampaignController::class, 'update']);
