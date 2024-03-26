@@ -10,6 +10,7 @@ use App\Http\Controllers\{
     PostController,
     PostCommentController,
     UserController,
+    UserProfileAddressController,
     RoleController,
     LocationController,
     DashboardController
@@ -120,6 +121,13 @@ Route::middleware('auth:api')->group(function () {
         Route::get('/all', [UserCOntroller::class, 'getAll']);
         Route::post('/', [UserController::class, 'store']);
         Route::delete('/deleteMany', [UserController::class, 'deleteMany']);
+
+        Route::prefix('/addresses/{profileId}')->group(function () {
+            Route::get('/', [UserProfileAddressController::class, 'index']);
+            Route::post('/', [UserProfileAddressController::class, 'store']);
+            Route::put('/{id}', [UserProfileAddressController::class, 'update']);
+            Route::delete('/{id}', [UserProfileAddressController::class, 'destroy']);
+        });
 
         Route::prefix('{id}')->group(function () {
             Route::get('/', [UserController::class, 'show']);
