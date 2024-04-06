@@ -13,7 +13,8 @@ use App\Http\Controllers\{
     UserProfileAddressController,
     RoleController,
     LocationController,
-    DashboardController
+    DashboardController,
+    OrderController
 };
 
 /*
@@ -73,6 +74,15 @@ Route::prefix('locations')->group(function () {
     Route::get('/', [LocationController::class, 'index']);
     Route::get('/types', [LocationController::class, 'getTypes']);
     Route::get('/{id}', [LocationController::class, 'show']);
+});
+
+Route::prefix('orders')->group(function () {
+    Route::post('/', [OrderController::class, 'create']);
+
+    Route::prefix('{orderNumber}/payment')->group(function () {
+        Route::get('/access', [OrderController::class, 'paymentAccess']);
+        Route::put('/status', [OrderController::class, 'updatePaymentStatus']);
+    });
 });
 
 // protected routes
