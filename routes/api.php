@@ -77,6 +77,7 @@ Route::prefix('locations')->group(function () {
 });
 
 Route::prefix('orders')->group(function () {
+    Route::get('/', [OrderController::class, 'index']);
     Route::post('/', [OrderController::class, 'create']);
 
     Route::prefix('{orderNumber}/payment')->group(function () {

@@ -11,12 +11,19 @@ use App\Models\{
     OrderAddress
 };
 use Carbon\Carbon;
+use App\Traits\OrderTrait;
 
 class OrderController extends Controller
 {
+    use OrderTrait;
+
     public function index()
     {
+        $lang = request()->query('lang', 'bg');
 
+        $orders = $this->getOrders($lang, null, true);
+
+        return $orders;
     }
 
     public function create(Request $request)

@@ -7,8 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use App\Models\{
     User,
-    OrderProduct,
-    OrderAddress
+    OrderAddress,
+    Product
 };
 
 class Order extends Model
@@ -30,7 +30,7 @@ class Order extends Model
     }
 
     public function products() {
-        return $this->belongsToMany(OrderProduct::class, 'order_products', 'order_id', 'product_id')->withPivot('quantity');
+        return $this->belongsToMany(Product::class, 'order_products', 'order_id', 'product_id')->withPivot('quantity');
     }
 
     public function address() {
