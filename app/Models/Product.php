@@ -16,7 +16,8 @@ class Product extends Model
     protected $fillable = [
         'slug',
         'price',
-        'active'
+        'active',
+        'show_on_home_page'
     ];
 
     public function files() {

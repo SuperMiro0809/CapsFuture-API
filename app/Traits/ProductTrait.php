@@ -35,6 +35,10 @@ trait ProductTrait {
             $query->where('active', request()->query('active'));
         }
 
+        if(request()->query('show_on_home_page')) {
+            $query->where('show_on_home_page', request()->query('show_on_home_page'));
+        }
+
         if(request()->query('search')) {
             $query->where(function ($q) {
                 $q->where('translations.title', 'LIKE', '%'.request()->query('search').'%')

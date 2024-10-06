@@ -26,6 +26,15 @@ class ProductController extends Controller
         return $products;
     }
 
+    public function getAll()
+    {
+        $lang = request()->query('lang', 'bg');
+
+        $products = $this->getProducts($lang, null, true);
+
+        return $products;
+    }
+
     public function store(Request $request)
     {
         $information = json_decode($request->information, true);
@@ -35,7 +44,8 @@ class ProductController extends Controller
             $product = Product::create([
                 'slug' => Str::slug($information['en']['title']),
                 'price' => $request->price,
-                'active' => $request->active
+                'active' => $request->active,
+                'show_on_home_page' => $request->show_on_home_page
             ]);
 
 
@@ -97,10 +107,18 @@ class ProductController extends Controller
                 }
             }
 
-            $updateData = ['active' => $request->active];
+            $updateData = [];
+
+            if($request->has('active')) {
+                $updateData['active'] = $request->active;
+            }
 
             if($request->has('price')) {
                 $updateData['price'] = $request->price;
+            }
+
+            if($request->has('show_on_home_page')) {
+                $updateData['show_on_home_page'] = $request->show_on_home_page;
             }
 
             $product->update($updateData);
