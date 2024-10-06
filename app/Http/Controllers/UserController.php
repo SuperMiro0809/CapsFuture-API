@@ -103,11 +103,11 @@ class UserController extends Controller
     {
         $ids = $request->ids;
 
-        $result = DB::transaction(function () use ($id) {
+        $result = DB::transaction(function () use ($ids) {
             foreach($ids as $id) {
                 $user = User::find($id);
 
-                $product->profile()->delete();
+                $user->profile()->delete();
     
                 Storage::deleteDirectory('public/users/' . $id);
     
