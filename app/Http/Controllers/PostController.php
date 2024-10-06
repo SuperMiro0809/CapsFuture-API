@@ -25,6 +25,15 @@ class PostController extends Controller
         return $posts;
     }
 
+    public function getAll()
+    {
+        $lang = request()->query('lang', 'bg');
+
+        $posts = $this->getPosts($lang, null, true);
+
+        return $posts;
+    }
+
     public function store(Request $request)
     {
         $information = json_decode($request->information, true);
