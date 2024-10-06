@@ -14,7 +14,8 @@ use App\Http\Controllers\{
     RoleController,
     LocationController,
     DashboardController,
-    OrderController
+    OrderController,
+    FaqController
 };
 
 /*
@@ -41,6 +42,7 @@ Route::prefix('auth')->group(function () {
 
 Route::prefix('products')->group(function () {
     Route::get('/', [ProductController::class, 'index']);
+    Route::get('/all', [ProductController::class, 'getAll']);
     Route::get('/latest', [ProductController::class, 'latest']);
     Route::get('/{slug}/details', [ProductController::class, 'showBySlug']);
     Route::get('/{id}', [ProductController::class, 'show']);
@@ -58,6 +60,7 @@ Route::prefix('campaigns')->group(function () {
 
 Route::prefix('posts')->group(function () {
     Route::get('/', [PostController::class, 'index']);
+    Route::get('/all', [PostController::class, 'getAll']);
 
     Route::prefix('{id}/comments')->group(function () {
         Route::post('/', [PostCommentController::class, 'store']);
@@ -84,6 +87,10 @@ Route::prefix('orders')->group(function () {
         Route::get('/access', [OrderController::class, 'paymentAccess']);
         Route::put('/status', [OrderController::class, 'updatePaymentStatus']);
     });
+});
+
+Route::prefix('faqs')->group(function () {
+    Route::get('/', [FaqController::class, 'index']);
 });
 
 // protected routes
@@ -156,5 +163,11 @@ Route::middleware('auth:api')->group(function () {
         Route::post('/', [LocationController::class, 'store']);
         Route::put('/{id}', [LocationController::class, 'update']);
         Route::delete('/{id}', [LocationController::class, 'destroy']);
+    });
+
+    Route::prefix('faqs')->group(function () {
+        Route::post('/createMany', [FaqController::class, 'storeMany']);
+        Route::put('/updateMany', [FaqController::class, 'updateMany']);
+        Route::delete('/deleteMany', [FaqController::class, 'deleteMany']);
     });
 });
