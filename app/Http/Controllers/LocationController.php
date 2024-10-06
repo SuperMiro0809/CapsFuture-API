@@ -30,13 +30,15 @@ class LocationController extends Controller
                 'type_id' => $request->type,
                 'latitude' => $request->location['lat'],
                 'longitude' => $request->location['lng'],
+                'address_bg' => $request->address_bg,
+                'address_en' => $request->address_en,
                 'collects_caps' => $request->collects_caps,
                 'collects_bottles' => $request->collects_bottles,
                 'collects_cans' =>  $request->collects_cans
             ]);
 
             $location->information()->create([
-                'user_id' => $request->user['value'],
+                'user_id' => $request->user ? $request->user['value'] : null,
                 'first_name' => $request->first_name,
                 'last_name' => $request->last_name,
                 'email' => $request->email,
@@ -60,6 +62,8 @@ class LocationController extends Controller
                 'type_id' => $request->type,
                 'latitude' => $request->location['lat'],
                 'longitude' => $request->location['lng'],
+                'address_bg' => $request->address_bg,
+                'address_en' => $request->address_en,
                 'collects_caps' => $request->collects_caps,
                 'collects_bottles' => $request->collects_bottles,
                 'collects_cans' =>  $request->collects_cans

@@ -26,7 +26,7 @@ class StationsLocationsSeeder extends Seeder
 
         $station_id = LocationType::where('name', 'station')->first()->id;
 
-        $json = File::get('database/data/stations_data.json');
+        $json = File::get('database/data/stations_data_2.json');
         $locations = json_decode($json, true);
   
         foreach ($locations as $key => $value) {
@@ -37,6 +37,8 @@ class StationsLocationsSeeder extends Seeder
                 'type_id' => $station_id,
                 'latitude' => $value['Latitude'],
                 'longitude' => $value['Longitude'],
+                'address_bg' => $value['Address_bg'],
+                'address_en' => $value['Address_en'],
                 'collects_caps' => str_contains($information, 'капачки'),
                 'collects_bottles' => str_contains($information, 'бутилки') || str_contains($information, 'шишета'),
                 'collects_cans' =>  str_contains($information, 'кенчета')

@@ -17,6 +17,8 @@ class Location extends Model
         'name',
         'latitude',
         'longitude',
+        'address_bg',
+        'address_en',
         'type_id',
         'collects_caps',
         'collects_bottles',
